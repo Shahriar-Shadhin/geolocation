@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <style type="text/css">
+        	.value{
+        		font-weight: 700;
+        	}
+        	.name{
+        		font-weight: 800;
+        		color: blue;
+        	}
+        </style>
+</head>
+
+<body>
+	<div style="display: flex; flex-direction: column; padding: 20px;">
+    <button id="location-button" style="margin-top: 20px; height: 40px;">Click It</button>
+    <br>
+    <br>
+    <br>
+    <span class="name">Latitude:</span>
+    <span id="latitude" class="value"></span><br>
+    <span class="name">Longitude:</span>
+    <span id="longitude" class="value"></span>
+    </div>
+</body>
+<script>
+    $('#location-button').click(function () {
+        if (navigator.geolocation)
+            // console.log("position");
+            navigator.geolocation.getCurrentPosition(function (position) {
+            	const lat = position.coords.latitude;
+            	const lon = position.coords.longitude;
+            	document.getElementById('latitude').textContent = lat;
+            	document.getElementById('longitude').textContent = lon;
+                // console.log(position);
+            });
+        else
+            console.log("location not found");
+    });
+
+</script>
+
+</html>
