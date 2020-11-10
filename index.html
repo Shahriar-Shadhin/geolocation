@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+    <!-- <script src="/__/firebase/8.0.1/firebase-auth.js"></script> -->
+    <style type="text/css">
+        .value {
+            font-weight: 700;
+        }
+
+        .name {
+            font-weight: 800;
+            color: blue;
+        }
+
+        .username {
+            margin: 0 auto;
+            width: 200px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: column; padding: 20px; align-items: center;">
+        <!-- <form style="display: flex; flex-direction: column; padding: 20px; align-items: center;"> -->
+        <input type="text" name="name" id="name" class="username" placeholder="Enter your name" required>
+        <button id="location-button" style="margin-top: 10px; width: 100px;">Click It</button>
+        <!-- </form> -->
+
+        <br>
+        <br>
+        <br>
+        <span class="name">Latitude:</span>
+        <span id="latitude" class="value"></span><br>
+        <span class="name">Longitude:</span>
+        <span id="longitude" class="value"></span>
+    </div>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyB0-2Gi_VJ7_jFBzfvFlSeYuVjNyHmKjrA",
+            authDomain: "geo-location-8a2a6.firebaseapp.com",
+            databaseURL: "https://geo-location-8a2a6.firebaseio.com",
+            projectId: "geo-location-8a2a6",
+            storageBucket: "geo-location-8a2a6.appspot.com",
+            messagingSenderId: "761339616651",
+            appId: "1:761339616651:web:36dbaa91055403878da38e",
+            measurementId: "G-E425SHZ2TY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // firebase.analytics();
+        var database = firebase.database();
+        var ref = database.ref('scores');
+
+        //   -------------------------------------------------------------
+
+
+
+        $('#location-button').click(function () {
+            if (navigator.geolocation) {
+                // console.log("position");
+                let name = document.getElementById('name').value;
+                // console.log(name)
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    // console.log(position);
+                    var data = {
+                        name: name,
+                        latitude: lat,
+                        longitude: lon
+                    }
+                    ref.push(data);
+
+                    document.getElementById('latitude').textContent = lat;
+                    document.getElementById('longitude').textContent = lon;
+                });
+            }
+            else
+                alert("location not found!");
+        });
+
+    </script>
+    <p style="margin: 0 auto; text-align: center; padding: 10px;"><strong style="color: red;">NOTE:</strong> Copy
+        latitude and longitude
+        values and pest
+        them in google
+        map using a comma
+        between them</p>
+</body>
+
+</html>
